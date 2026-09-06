@@ -3,15 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Project.Domain.Entities
+namespace Project.Communication.Dto.Requests
 {
-    public class FuncionarioModel
+    public class RequestFuncionarioRegisterJson
     {
-        public Guid Id { get; set; }
         public string Nome { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string PasswordHash { get; set; } = string.Empty;
-        public ICollection<TarefaModel> Tarefas { get; set; } = new List<TarefaModel>();
-        public bool Disponivel { get; set; } = true;
     }
 }
