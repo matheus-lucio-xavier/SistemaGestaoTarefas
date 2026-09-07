@@ -1,2 +1,11 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+using Project.Domain.Settings;
+using Project.Worker;
+
+var builder = Host.CreateApplicationBuilder(args);
+
+builder.Services.Configure<RabbitMQSettings>(builder.Configuration.GetSection("RabbitMQ"));
+
+builder.Services.AddHostedService<Worker>();
+
+var host = builder.Build();
+host.Run();

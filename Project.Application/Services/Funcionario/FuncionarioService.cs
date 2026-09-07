@@ -112,7 +112,7 @@ namespace Project.Application.Services.Funcionario
                     return ServiceResponse<FuncionarioModel>.BadRequest("Funcionario nao existe");
                 }
 
-                await _repository.Excluir(existente);
+                _repository.Excluir(existente);
                 var saved = await _unit.Commit();
 
                 if (saved)

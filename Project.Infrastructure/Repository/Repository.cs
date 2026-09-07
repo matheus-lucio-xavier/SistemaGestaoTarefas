@@ -32,13 +32,13 @@ namespace Project.Infrastructure.Repository
             return true;
         }
 
-        public async Task<bool> Editar<T>(T model) where T : class
+        public bool Editar<T>(T model) where T : class
         {
             _appDbContext.Set<T>().Update(model);
             return true;
         }
 
-        public async Task<bool> Excluir<T>(T model) where T : class
+        public bool Excluir<T>(T model) where T : class
         {
             _appDbContext.Set<T>().Remove(model);
             return true;

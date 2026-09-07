@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Project.Communication.Dto.Events;
 using Project.Communication.Dto.Requests;
 using Project.Communication.Dto.Responses;
 using Project.Domain.Entities;
@@ -10,11 +11,13 @@ namespace Project.Application.Services
     {
         private readonly IRepository _repository;
         private readonly IUnitOfWork _unit;
+        private readonly IEventPublisher _publisher;
 
-        public PedidoService(IRepository repository, IUnitOfWork unitOfWork)
+        public PedidoService(IRepository repository, IUnitOfWork unitOfWork, IEventPublisher publisher)
         {
             _repository = repository;
             _unit = unitOfWork;
+            _publisher = publisher;
         }
 
         public async Task<ServiceResponse<List<PedidoModel>>> Consultar()
@@ -68,6 +71,11 @@ namespace Project.Application.Services
                 await _unit.Commit();
                 await _unit.CommitTransaction();
 
+                await _publisher.PublishAsync(
+                    new PedidoCriadoEvent {
+                        PedidoId = novo.Id
+                    });
+
                 return ServiceResponse<PedidoModel>.Ok(novo);
             }
             catch (Exception ex)
@@ -89,7 +97,7 @@ namespace Project.Application.Services
                     return ServiceResponse<PedidoModel>.BadRequest("Pedido nao existe");
                 }
 
-                await _repository.Excluir(existente);
+                _repository.Excluir(existente);
                 var saved = await _unit.Commit();
 
                 if (saved)

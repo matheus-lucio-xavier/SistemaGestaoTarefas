@@ -2,11 +2,14 @@ using Microsoft.EntityFrameworkCore;
 using Project.Application.Services;
 using Project.Application.Services.Funcionario;
 using Project.Domain.Interfaces;
+using Project.Domain.Settings;
 using Project.Infrastructure.Data;
 using Project.Infrastructure.Repository;
 using Project.Infrastructure.UnitOfWork;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.Configure<RabbitMQSettings>(builder.Configuration.GetSection("RabbitMQ"));
 
 builder.Services.AddControllers();
 
@@ -20,6 +23,8 @@ builder.Services.AddScoped<IFuncionarioService, FuncionarioService>();
 
 // Unit Of Work
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+builder.Services.AddScoped<IEventPublisher, EventPublisher>();
 
 builder.Services.AddEndpointsApiExplorer();
 

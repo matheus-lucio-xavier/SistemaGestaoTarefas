@@ -13,7 +13,7 @@ namespace Project.Domain.Interfaces
         Task<T?> ConsultarPorId<T>(Guid id) where T : class;
 
         Task<bool> Cadastrar<T>(T model) where T : class;
-        Task<bool> Editar<T>(T model) where T : class;
-        Task<bool> Excluir<T>(T model) where T : class;
+        bool Editar<T>(T model) where T : class;
+        bool Excluir<T>(T model) where T : class;
     }
 }
