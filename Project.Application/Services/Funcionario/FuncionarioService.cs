@@ -83,8 +83,7 @@ namespace Project.Application.Services.Funcionario
                 var novo = new FuncionarioModel
                 {
                     Nome = funcionario.Nome,
-                    Email = funcionario.Email,
-                    PasswordHash = funcionario.PasswordHash
+                    AreaAtuacao = funcionario.AreaAtuacao
                 };
 
                 await _repository.Cadastrar(novo);

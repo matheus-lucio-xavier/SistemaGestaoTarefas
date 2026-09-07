@@ -17,8 +17,7 @@ namespace Project.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Nome = table.Column<string>(type: "text", nullable: false),
-                    Email = table.Column<string>(type: "text", nullable: false),
-                    PasswordHash = table.Column<string>(type: "text", nullable: false),
+                    AreaAtuacao = table.Column<int>(type: "integer", nullable: false),
                     Disponivel = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
@@ -33,6 +32,7 @@ namespace Project.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Descricao = table.Column<string>(type: "text", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false),
+                    AreaAtuacao = table.Column<int>(type: "integer", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>

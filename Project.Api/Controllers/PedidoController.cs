@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Project.Application.Services;
+using Project.Communication.Dto.Requests;
 using Project.Domain.Entities;
 
 namespace Project.Api.Controllers
@@ -42,7 +43,7 @@ namespace Project.Api.Controllers
         }
 
         [HttpPost("pedidos")]
-        public async Task<IActionResult> PostPedidos([FromBody] PedidoModel pedido)
+        public async Task<IActionResult> PostPedidos([FromBody] RequestPedidoRegisterJson pedido)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Project.Communication.Dto.Requests;
 using Project.Communication.Dto.Responses;
 using Project.Domain.Entities;
 using Project.Domain.Interfaces;
@@ -50,18 +51,24 @@ namespace Project.Application.Services
                 return ServiceResponse<PedidoModel>.Error(ex.Message);
             }
         }
-        public async Task<ServiceResponse<PedidoModel>> Cadastrar(PedidoModel pedido)
+        public async Task<ServiceResponse<PedidoModel>> Cadastrar(RequestPedidoRegisterJson pedido)
         {
             await _unit.BeginTransaction();
 
             try
             {
-                await _repository.Cadastrar(pedido);
+                var novo = new PedidoModel
+                {
+                    Descricao = pedido.Descricao,
+                    AreaAtuacao = pedido.AreaAtuacao
+                };
+
+                await _repository.Cadastrar(novo);
                 
                 await _unit.Commit();
                 await _unit.CommitTransaction();
 
-                return ServiceResponse<PedidoModel>.Ok(pedido);
+                return ServiceResponse<PedidoModel>.Ok(novo);
             }
             catch (Exception ex)
             {

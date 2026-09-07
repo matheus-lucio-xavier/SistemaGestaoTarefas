@@ -6,9 +6,9 @@ using Project.Communication.Enum;
 
 namespace Project.Communication.Dto.Requests
 {
-    public class RequestFuncionarioRegisterJson
+    public class RequestPedidoRegisterJson
     {
-        public string Nome { get; set; } = string.Empty;
+        public string Descricao { get; set; } = string.Empty;
         public AreaAtuacaoEnum AreaAtuacao { get; set; }
     }
 }
