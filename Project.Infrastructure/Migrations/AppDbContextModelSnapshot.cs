@@ -31,9 +31,6 @@ namespace Project.Infrastructure.Migrations
                     b.Property<int>("AreaAtuacao")
                         .HasColumnType("integer");
 
-                    b.Property<bool>("Disponivel")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("text");

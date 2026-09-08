@@ -24,6 +24,7 @@ builder.Services.AddScoped<IFuncionarioService, FuncionarioService>();
 // Unit Of Work
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+// Event publisher
 builder.Services.AddScoped<IEventPublisher, EventPublisher>();
 
 builder.Services.AddEndpointsApiExplorer();
@@ -32,8 +33,6 @@ builder.Services.AddSwaggerGen();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
-
-Console.WriteLine(connectionString);
 
 builder.Services.AddCors(options =>
 {

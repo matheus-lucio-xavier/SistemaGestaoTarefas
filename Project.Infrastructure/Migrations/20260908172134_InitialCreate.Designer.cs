@@ -12,7 +12,7 @@ using Project.Infrastructure.Data;
 namespace Project.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260907183221_InitialCreate")]
+    [Migration("20260908172134_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -33,9 +33,6 @@ namespace Project.Infrastructure.Migrations
 
                     b.Property<int>("AreaAtuacao")
                         .HasColumnType("integer");
-
-                    b.Property<bool>("Disponivel")
-                        .HasColumnType("boolean");
 
                     b.Property<string>("Nome")
                         .IsRequired()

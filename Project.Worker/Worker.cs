@@ -2,7 +2,9 @@ using System.Text;
 using System.Text.Json;
 using Microsoft.Extensions.Options;
 using Project.Communication.Dto.Events;
+using Project.Domain.Interfaces;
 using Project.Domain.Settings;
+using Project.Infrastructure.Messaging;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
@@ -11,10 +13,12 @@ namespace Project.Worker;
 public class Worker : BackgroundService
 {
     private readonly RabbitMQSettings _settings;
+    private readonly IServiceScopeFactory _scopeFactory;
 
-    public Worker(IOptions<RabbitMQSettings> settings)
+    public Worker(IOptions<RabbitMQSettings> settings, IServiceScopeFactory scopeFactory)
     {
         _settings = settings.Value;
+        _scopeFactory = scopeFactory;
     }
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -48,19 +52,24 @@ public class Worker : BackgroundService
 
         consumer.ReceivedAsync += async (sender, args) =>
         {
-            var body = args.Body.ToArray();
+            var json = Encoding.UTF8.GetString(args.Body.ToArray());
 
-            var json = Encoding.UTF8.GetString(body);
+            var message = JsonSerializer.Deserialize<EventMessage>(json);
 
-            var evento = JsonSerializer.Deserialize<PedidoCriadoEvent>(json);
-
-            if (evento == null)
+            if (message == null)
             {
-                Console.WriteLine("Não foi possível desserializar a mensagem.");
-                return;
+                throw new Exception("Mensagem inválida.");
             }
 
-            Console.WriteLine($"Pedido recebido: {evento.PedidoId}");
+            using var scope = _scopeFactory.CreateScope();
+
+            var dispatcher =
+                scope.ServiceProvider
+                    .GetRequiredService<IEventDispatcher>();
+
+            await dispatcher.DispatchAsync(
+                message.EventType, 
+                message.Data);
 
             await channel.BasicAckAsync(
                 deliveryTag: args.DeliveryTag,

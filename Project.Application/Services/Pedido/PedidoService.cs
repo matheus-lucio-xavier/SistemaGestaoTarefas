@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using Project.Communication.Dto.Events;
 using Project.Communication.Dto.Requests;
@@ -72,8 +73,13 @@ namespace Project.Application.Services
                 await _unit.CommitTransaction();
 
                 await _publisher.PublishAsync(
-                    new PedidoCriadoEvent {
-                        PedidoId = novo.Id
+                    new EventMessage
+                    {
+                        EventType = "PedidoCriado",
+                        Data = JsonSerializer.Serialize(
+                            new PedidoCriadoEvent {
+                                PedidoId = novo.Id
+                        })
                     });
 
                 return ServiceResponse<PedidoModel>.Ok(novo);

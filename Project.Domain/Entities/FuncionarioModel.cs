@@ -12,6 +12,5 @@ namespace Project.Domain.Entities
         public string Nome { get; set; } = string.Empty;
         public AreaAtuacaoEnum AreaAtuacao { get; set; }
         public ICollection<TarefaModel> Tarefas { get; set; } = new List<TarefaModel>();
-        public bool Disponivel { get; set; } = true;
     }
 }

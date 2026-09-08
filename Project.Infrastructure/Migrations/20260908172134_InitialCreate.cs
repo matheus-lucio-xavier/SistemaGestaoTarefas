@@ -17,8 +17,7 @@ namespace Project.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Nome = table.Column<string>(type: "text", nullable: false),
-                    AreaAtuacao = table.Column<int>(type: "integer", nullable: false),
-                    Disponivel = table.Column<bool>(type: "boolean", nullable: false)
+                    AreaAtuacao = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
